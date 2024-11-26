@@ -1,4 +1,7 @@
-package com.example.skilo_final_project;
+package com.example.utils;
 
-public class Utils {
+import org.testng.ITestListener;
+
+public class Screenshoots implements ITestListener {
+
 }
