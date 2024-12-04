@@ -3,11 +3,7 @@ package com.example.skilo_final_project;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class ProfileScreen extends BaseClass {
@@ -63,52 +59,11 @@ public class ProfileScreen extends BaseClass {
     public void ClickOnEditProfileButton() {
         getEditProfileButtonElement().click();
     }
-    /*public void CheckNames(List<String> fields){
-        //return getProfileFieldElement().getText();
-        List<String> nova = new ArrayList<>();
-        List<List<String>> splitList = new ArrayList<>();
 
-        /*for (int i=0; i<fields.size(); i++){
-            nova.add(getProfileFieldElements().get(i).getText());
-            //System.out.println(getProfileFieldElements().get(i).getText());
-        }
-        for (String item : fields) {
-            List<String> splititems = Arrays.asList(item.split(" "));
-            splitList.add(splititems);
-            System.out.println(splitList);
-        }
-
-
-        for (int i=0; i<fields.size(); i++){
-            System.out.println(fields.get(i));
-            //System.out.println(getProfileFieldElements().get(i).getText());
-        }
-
-        System.out.println(getProfileFieldElements().size());
-        System.out.println(fields.size());
-        System.out.println(nova.size());
-        /*try{
-            Assert.assertEquals(fields, getProfileFieldElements());
-            System.out.println("The fields name are correct");
-        }catch(Throwable e){
-            System.err.println("The fields name are incorrect"+e.getMessage());
-        }
-    }*/
-    /*public void NameCheck(String field){
-        List<String> fields = new ArrayList<>();
-        Collections.addAll(fields, field.split(","));
-        try{
-            Assert.assertEquals(fields, getProfileFieldElements());
-            System.out.println("The fields name are correct");
-        }catch(Throwable e){
-            System.out.println("The fields name are incorrect");
-        }
-        for (int i=0; i<fields.size(); i++){
-            System.out.println(fields.get(i));
-            System.out.println(getProfileFieldElements().get(i).getText());
-        }
-    }*/
-
+    public void CheckFieldsNames(int position, String fieldName){
+        //System.out.println("The position " + position + " is "+ getProfileFieldElements().get(position-1).getText() + ", entered name is "+fieldName);
+        assert getProfileFieldElements().get(position-1).getText().equals(fieldName);
+    }
     public void CheckFormName(String headerName){
         assert getFormHeaderElement().getText().equals(headerName);
     }

@@ -2,9 +2,7 @@ package com.example.skilo_final_project;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -18,7 +16,7 @@ import static org.apache.commons.io.FileUtils.cleanDirectory;
 
 public class BaseClass {
     public static final String SCREENSHOTS_DIR = "src\\main\\resources\\screenshots\\";
-    ChromeDriver chromeDriver;
+    protected ChromeDriver chromeDriver;
     protected LoginScreen loginScreen;
     protected HomePageScreen homePageScreen;
     protected ProfileScreen profileScreen;
@@ -40,7 +38,6 @@ public class BaseClass {
         loginScreen = new LoginScreen(chromeDriver);
         homePageScreen = new HomePageScreen(chromeDriver);
         profileScreen = new ProfileScreen(chromeDriver);
-
     }
 
     @AfterMethod
