@@ -4,11 +4,15 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class ProfileScreen extends BaseClass {
+public class ProfileScreen{
     ChromeDriver chromeDriver;
 
     public ProfileScreen(ChromeDriver chromeDriver) {
@@ -89,7 +93,10 @@ public class ProfileScreen extends BaseClass {
         return getProfileUserNameFieldElement().getText();
     }
 
+
     public void ClickOnProfileButton() {
+        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(profileButtonId)));
         getProfileButtonElement().click();
     }
 
@@ -106,6 +113,9 @@ public class ProfileScreen extends BaseClass {
     }
 
     public void CheckFollowingCounters(){
+        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(followingId)));
+
         String pom = getFollowingIdElement().getText().split(" ")[0];
         int br = Integer.parseInt(pom);
         Assert.assertEquals(getFollowingElements().size(), br);
