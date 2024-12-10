@@ -7,9 +7,13 @@
             <class name="com.example.skilo_final_project.LoginScreen"></class>
         </classes>
     </test>
-    <test name="Regression Tests">
+    <test name="Tests">
         <classes>
-            <class name="TestCases"></class>
+            <class name="CheckNumberOfFollowing"></class>
+            <class name="CheckProfileModifyList"></class>
+            <class name="CheckUnfollowButton"></class>
+            <class name="LoginTest"></class>
+            <class name="TestCommentPost"></class>
         </classes>
     </test>
 </suite>

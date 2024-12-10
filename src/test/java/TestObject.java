@@ -1,5 +1,6 @@
-package com.example.skilo_final_project;
-
+import com.example.skilo_final_project.HomePageScreen;
+import com.example.skilo_final_project.LoginScreen;
+import com.example.skilo_final_project.ProfileScreen;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
@@ -9,12 +10,11 @@ import org.testng.annotations.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.time.Duration;
 
 import static org.apache.commons.io.FileUtils.cleanDirectory;
 
-public class BaseClass {
+public class TestObject {
     public static final String SCREENSHOTS_DIR = "src\\main\\resources\\screenshots\\";
     protected ChromeDriver chromeDriver;
     protected LoginScreen loginScreen;
@@ -43,6 +43,14 @@ public class BaseClass {
     @AfterMethod
     public void takeScreenShots(ITestResult testResult) throws IOException {
         takeScreenShot(testResult);
+    }
+
+    @AfterClass
+    public void tearDown() {
+        // Close the browser after all tests in the class
+        if (chromeDriver != null) {
+            chromeDriver.quit();
+        }
     }
 
     private void takeScreenShot(ITestResult testResult) {
