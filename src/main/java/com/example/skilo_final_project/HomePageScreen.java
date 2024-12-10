@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class HomePageScreen extends BaseClass{
+public class HomePageScreen{
     ChromeDriver chromeDriver;
     public HomePageScreen(ChromeDriver chromeDriver) {
         this.chromeDriver = chromeDriver;

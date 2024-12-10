@@ -1,11 +1,21 @@
 package com.example.skilo_final_project;
 
+import com.github.dockerjava.api.command.WaitContainerCmd;
+import net.bytebuddy.pool.TypePool;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
-public class LoginScreen extends BaseClass{
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+public class LoginScreen{
     ChromeDriver chromeDriver;
+
     public LoginScreen(ChromeDriver chromeDriver) {
         this.chromeDriver = chromeDriver;
     }
@@ -13,6 +23,8 @@ public class LoginScreen extends BaseClass{
     String userNameFieldId = "defaultLoginFormUsername";
     String passwordFieldId = "defaultLoginFormPassword";
     String signInFieldId = "sign-in-button";
+    String logOutButtonClassName = "fa-lg";
+
 
 
     WebElement getRegisterButtonElement(){
@@ -29,7 +41,13 @@ public class LoginScreen extends BaseClass{
     }
 
 
-
+    public void CheckLogin() throws InterruptedException {
+        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.urlContains("/posts"));
+        String actualUrl = chromeDriver.getCurrentUrl();
+        String expectedUrl = "http://training.skillo-bg.com:4300/posts/all";
+        Assert.assertEquals(actualUrl, expectedUrl, "User is not logged in");
+    }
     public void ClickRegisterButton(){
         getRegisterButtonElement().click();
     }

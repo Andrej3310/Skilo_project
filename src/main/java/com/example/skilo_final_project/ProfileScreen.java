@@ -1,16 +1,18 @@
 package com.example.skilo_final_project;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-public class ProfileScreen extends BaseClass {
+public class ProfileScreen{
     ChromeDriver chromeDriver;
 
     public ProfileScreen(ChromeDriver chromeDriver) {
@@ -21,9 +23,18 @@ public class ProfileScreen extends BaseClass {
     String newPostXpath = "/html/body/app-root/div[2]/app-profile/div/div[2]/app-profile-posts-section/div/div[1]/div[3]/div/a";
     String profileUserNameXpath = "/html/body/app-root/div[2]/app-profile/div/div[1]/app-profile-section/div/div/div[2]/div/div[1]/h2";
     String profileButtonId = "nav-link-profile";
-    String editProfileButton = "fa-user-edit";
+    String editProfileButtonClassName = "fa-user-edit";
     String profileFields = "col-4";
     String formHeader = "form-header";
+    String allButtonClassName = "btn-all";
+    String followingId = "following";
+    String listFollowingClassName = "small-user-container";
+    String allPostButtonClassName = "btn-all";
+    String firstPostXpath = "/html/body/app-root/div[2]/app-profile/div/div[2]/app-profile-posts-section/div/div[2]/div/app-post-list/div/div/app-post[1]";
+    String commentFieldXpath = "/html/body/ngb-modal-window/div/div/app-post-modal/div/div[2]/app-comment-form/form/fieldset/div/input";
+    String unfollowButtonXpath = "/html/body/ngb-modal-window/div/div/app-followers-modal/div/div[2]/div/div[1]/div/app-small-user-profile/div/div[2]/button";
+    String listCommentsClassName = "comment-container";
+
 
     WebElement getNewPostClassNameElement() {
         return chromeDriver.findElement(By.xpath(newPostXpath));
@@ -38,14 +49,40 @@ public class ProfileScreen extends BaseClass {
     }
 
     WebElement getEditProfileButtonElement() {
-        return chromeDriver.findElement(By.className(editProfileButton));
+        return chromeDriver.findElement(By.className(editProfileButtonClassName));
     }
 
     List<WebElement> getProfileFieldElements() {
         return chromeDriver.findElements(By.className(profileFields));
     }
+    List<WebElement> getFollowingElements() {
+        return chromeDriver.findElements(By.className(listFollowingClassName));
+    }
+
+    WebElement getAllButtonElement() {
+        return chromeDriver.findElement(By.className(allButtonClassName));
+    }
     WebElement getFormHeaderElement() {
         return chromeDriver.findElement(By.className(formHeader));
+    }
+
+    WebElement getFollowingIdElement() {
+        return chromeDriver.findElement(By.id(followingId));
+    }
+    WebElement getAllPostButtonElement() {
+        return chromeDriver.findElement(By.className(allPostButtonClassName));
+    }
+    WebElement getFirstPostElement() {
+        return chromeDriver.findElement(By.xpath(firstPostXpath));
+    }
+    WebElement getCommentFieldElement() {
+        return chromeDriver.findElement(By.xpath(commentFieldXpath));
+    }
+    WebElement getUnfollowButtonElement() {
+        return chromeDriver.findElement(By.xpath(unfollowButtonXpath));
+    }
+    List<WebElement> getCommentsElements(){
+        return chromeDriver.findElements(By.className(listCommentsClassName));
     }
 
     public void ClickOnNewPostBtn() {
@@ -56,60 +93,55 @@ public class ProfileScreen extends BaseClass {
         return getProfileUserNameFieldElement().getText();
     }
 
+
     public void ClickOnProfileButton() {
+        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(profileButtonId)));
         getProfileButtonElement().click();
     }
 
     public void ClickOnEditProfileButton() {
         getEditProfileButtonElement().click();
     }
-    /*public void CheckNames(List<String> fields){
-        //return getProfileFieldElement().getText();
-        List<String> nova = new ArrayList<>();
-        List<List<String>> splitList = new ArrayList<>();
 
-        /*for (int i=0; i<fields.size(); i++){
-            nova.add(getProfileFieldElements().get(i).getText());
-            //System.out.println(getProfileFieldElements().get(i).getText());
-        }
-        for (String item : fields) {
-            List<String> splititems = Arrays.asList(item.split(" "));
-            splitList.add(splititems);
-            System.out.println(splitList);
-        }
-
-
-        for (int i=0; i<fields.size(); i++){
-            System.out.println(fields.get(i));
-            //System.out.println(getProfileFieldElements().get(i).getText());
-        }
-
-        System.out.println(getProfileFieldElements().size());
-        System.out.println(fields.size());
-        System.out.println(nova.size());
-        /*try{
-            Assert.assertEquals(fields, getProfileFieldElements());
-            System.out.println("The fields name are correct");
-        }catch(Throwable e){
-            System.err.println("The fields name are incorrect"+e.getMessage());
-        }
-    }*/
-    /*public void NameCheck(String field){
-        List<String> fields = new ArrayList<>();
-        Collections.addAll(fields, field.split(","));
-        try{
-            Assert.assertEquals(fields, getProfileFieldElements());
-            System.out.println("The fields name are correct");
-        }catch(Throwable e){
-            System.out.println("The fields name are incorrect");
-        }
-        for (int i=0; i<fields.size(); i++){
-            System.out.println(fields.get(i));
-            System.out.println(getProfileFieldElements().get(i).getText());
-        }
-    }*/
-
+    public void CheckFieldsNames(int position, String fieldName){
+        //System.out.println("The position " + position + " is "+ getProfileFieldElements().get(position-1).getText() + ", entered name is "+fieldName);
+        Assert.assertEquals(getProfileFieldElements().get(position-1).getText(), fieldName);
+    }
     public void CheckFormName(String headerName){
         assert getFormHeaderElement().getText().equals(headerName);
+    }
+
+    public void CheckFollowingCounters(){
+        WebDriverWait wait = new WebDriverWait(chromeDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(followingId)));
+
+        String pom = getFollowingIdElement().getText().split(" ")[0];
+        int br = Integer.parseInt(pom);
+        Assert.assertEquals(getFollowingElements().size(), br);
+    }
+    public void ClickOnAllButton(){
+        getAllButtonElement().click();
+    }
+    public void ClickOnFollowing(){
+        getFollowingIdElement().click();
+    }
+    public void ClickOnAllPostButton(){
+        getAllPostButtonElement().click();
+    }
+    public void ClickOnFirstPost(){
+        getFirstPostElement().click();
+    }
+    public void EnterComment(String comment){
+        getCommentFieldElement().sendKeys(comment);
+        getCommentFieldElement().sendKeys(Keys.ENTER);
+    }
+    public void CheckUnfollowButton() throws InterruptedException {
+        getFollowingIdElement().click();
+        getUnfollowButtonElement().click();
+        Thread.sleep(1000);
+        String pom2 = getFollowingIdElement().getText().split(" ")[0];
+        int br4 = Integer.parseInt(pom2);
+        Assert.assertEquals(getFollowingElements().size(), br4);
     }
 }
